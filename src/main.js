@@ -14,6 +14,12 @@ const searchForm = document.querySelector('.search-form');
 const searchInput = document.querySelector('.search-input');
 const galleryList = document.querySelector('.gallery');
 
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});
+
 galleryList.style.display = 'none';
 searchForm.addEventListener('submit', handleSearch);
 
@@ -30,16 +36,10 @@ function handleSearch(event) {
     return;
   }
 
-  searchPicture(query)
+  getPicture(query)
     .then(data => {
       galleryList.innerHTML = '';
       galleryList.insertAdjacentHTML('beforeend', createCardMarkup(data.hits));
-
-      let lightbox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionPosition: 'bottom',
-        captionDelay: 250,
-      });
 
       lightbox.refresh();
     })
@@ -53,7 +53,7 @@ function handleSearch(event) {
     });
 }
 
-function searchPicture(name) {
+function getPicture(name) {
   const urlParams = new URLSearchParams({
     key: API_KEY,
     q: name,
