@@ -1,66 +1,61 @@
-// Описаний у документації
 import SimpleLightbox from 'simplelightbox';
-// Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// Описаний у документації
 import iziToast from 'izitoast';
-// Додатковий імпорт стилів
 import 'izitoast/dist/css/iziToast.min.css';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '41971380-5e7df6cf95dc1cfc66e370c4e';
 
 const searchForm = document.querySelector('.search-form');
-const searchInput = document.querySelector('.search-input');
-const galleryList = document.querySelector('.gallery');
+const resultContainer = document.querySelector('.result-container');
+const loader = document.querySelector('.loader');
 
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionPosition: 'bottom',
-  captionDelay: 250,
-});
-
-galleryList.style.display = 'none';
 searchForm.addEventListener('submit', handleSearch);
 
 function handleSearch(event) {
   event.preventDefault();
 
-  const query = encodeURIComponent(searchInput.value.trim());
+  loader.classList.remove('is-hidden');
 
-  if (query.trim() === '') {
-    iziToast.error({
-      title: 'Error',
-      message: 'Please enter a search query.',
-    });
-    return;
-  }
+  const form = event.currentTarget;
+  const picture = form.elements.picture.value;
 
-  getPicture(query)
+  getPicture(picture)
     .then(data => {
-      galleryList.innerHTML = '';
-      galleryList.insertAdjacentHTML('beforeend', createCardMarkup(data.hits));
+      const pictures = data.hits;
 
-      lightbox.refresh();
+      if (pictures.length === 0) {
+        iziToast.error({
+          position: 'topRight',
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
+        });
+      } else {
+        createMarkup(pictures);
+      }
     })
     .catch(error => {
       console.error(error);
       iziToast.error({
-        title: 'Error',
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
+        position: 'topRight',
+        message: 'Failed to fetch images. Please try again later.',
       });
+    })
+    .finally(() => {
+      form.reset();
+      loader.classList.add('is-hidden');
     });
 }
 
-function getPicture(name) {
+function getPicture(picture) {
   const urlParams = new URLSearchParams({
     key: API_KEY,
-    q: name,
+    q: picture,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
   });
+
   return fetch(`${BASE_URL}?${urlParams}`).then(res => {
     if (!res.ok) {
       throw new Error(res.statusText);
@@ -69,8 +64,14 @@ function getPicture(name) {
   });
 }
 
-function createCardMarkup(arr) {
-  return arr
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});
+
+function createMarkup(hits) {
+  const markUp = hits
     .map(
       ({
         webformatURL,
@@ -80,34 +81,22 @@ function createCardMarkup(arr) {
         views,
         comments,
         downloads,
-      }) => `
-    <li class="gallery-item">
-      <a class="gallery-link" href="${largeImageURL}">
-        <img
-          class="gallery-image"
-          src="${webformatURL}"
-          alt="${tags}"
-        />
-      </a>
-    </li>
-        <div class="block">
-             <div>
-              <h2 class="title">Likes</h2>
-              <p class="amount"> ${likes}</p>
-            </div>
-             <div>
-              <h2 class="title">Views</h2>
-              <p class="amount"> ${views}</p>
-            </div>
-             <div>
-              <h2 class="title">Comments</h2>
-              <p class="amount"> ${comments}</p>
-            </div>
-             <div>
-              <h2 class="title">Downloads</h2>
-              <p class="amount"> ${downloads}</p>
-            </div>
-        </div>`
+      }) => {
+        return `
+        <li class="gallery-item">
+          <a href="${largeImageURL}">
+            <img class="gallery-image" src="${webformatURL}" alt="${tags}">
+          </a>
+          <ul class="info-list">
+            <li class="info-item">Likes: ${likes}</li>
+            <li class="info-item">Views: ${views}</li>
+            <li class="info-item">Comments: ${comments}</li>
+            <li class="info-item">Downloads: ${downloads}</li>
+          </ul>
+        </li>`;
+      }
     )
     .join('');
+  resultContainer.innerHTML = markUp;
+  lightbox.refresh();
 }
