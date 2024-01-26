@@ -1,13 +1,11 @@
-import{i as a,S as f}from"./assets/vendor-7659544d.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))i(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const n of t.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&i(n)}).observe(document,{childList:!0,subtree:!0});function o(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function i(e){if(e.ep)return;e.ep=!0;const t=o(e);fetch(e.href,t)}})();const m="https://pixabay.com/api/",d="41971380-5e7df6cf95dc1cfc66e370c4e",p=document.querySelector(".search-form"),h=document.querySelector(".result-container"),c=document.querySelector(".loader");p.addEventListener("submit",g);function g(s){s.preventDefault(),c.classList.remove("is-hidden");const r=s.currentTarget,o=r.elements.picture.value;y(o).then(i=>{const e=i.hits;e.length===0?a.error({position:"topRight",message:"Sorry, there are no images matching your search query. Please try again!"}):P(e)}).catch(i=>{console.error(i),a.error({position:"topRight",message:"Failed to fetch images. Please try again later."})}).finally(()=>{r.reset(),c.classList.add("is-hidden")})}function y(s){const r=new URLSearchParams({key:d,q:s,image_type:"photo",orientation:"horizontal",safesearch:!0});return fetch(`${m}?${r}`).then(o=>{if(!o.ok)throw new Error(o.statusText);return o.json()})}const L=new f(".gallery a",{captionsData:"alt",captionPosition:"bottom",captionDelay:250});function P(s){const r=s.map(({webformatURL:o,largeImageURL:i,tags:e,likes:t,views:n,comments:l,downloads:u})=>`
-        <li class="gallery-item">
-          <a href="${i}">
-            <img class="gallery-image" src="${o}" alt="${e}">
-          </a>
-          <ul class="info-list">
-            <li class="info-item">Likes: ${t}</li>
-            <li class="info-item">Views: ${n}</li>
-            <li class="info-item">Comments: ${l}</li>
-            <li class="info-item">Downloads: ${u}</li>
-          </ul>
-        </li>`).join("");h.innerHTML=r,L.refresh()}
+import{i as a,S as f}from"./assets/vendor-5b791d57.js";(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const r of e)if(r.type==="childList")for(const n of r.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&s(n)}).observe(document,{childList:!0,subtree:!0});function i(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerPolicy&&(r.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?r.credentials="include":e.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function s(e){if(e.ep)return;e.ep=!0;const r=i(e);fetch(e.href,r)}})();const m="https://pixabay.com/api",d="41971380-5e7df6cf95dc1cfc66e370c4e",c={form:document.getElementById("search-form"),resultContainer:document.getElementById("result-container"),loader:document.querySelector(".loader")};c.form.addEventListener("submit",h);function h(t){t.preventDefault();const o=t.currentTarget,i=o.elements.picture.value;L(),p(i).then(s=>{const e=s.hits;e.length===0&&a.error({position:"topRight",message:"Sorry, there are no images matching your search query. Please try again!"}),y(e)}).catch(s=>{console.log(s),a.error({position:"topRight",message:"Failed to fetch images. Please try again later."})}).finally(()=>{o.reset(),P()})}function p(t){const o=new URLSearchParams({key:d,q:t,image_type:"photo",orientation:"horizontal",safesearch:!0,per_page:15});return fetch(`${m}?${o}`).then(i=>{if(!i.ok)throw new Error(i.statusText);return i.json()})}let g=new f(".gallery a",{captionsData:"alt",captionDelay:250});function y(t){const o=t.map(({webformatURL:i,largeImageURL:s,tags:e,likes:r,views:n,comments:l,downloads:u})=>`<li class="gallery-item">
+            <a href="${s}">
+  <img class="gallery-image" src="${i}" alt="${e}" width="370" heigth="300"></a>
+  <ul class="info-list">
+    <li class="info-item">Likes: ${r}</li>
+    <li class="info-item">Views: ${n}</li>
+    <li class="info-item">Comments: ${l}</li>
+    <li class="info-item">Downloads: ${u}</li>
+  </ul>
+</li>`).join("");c.resultContainer.innerHTML=o,g.refresh()}function L(){const t=document.querySelector(".loader");t&&t.classList.add("visible")}function P(){const t=document.querySelector(".loader");t&&t.classList.remove("visible")}
 //# sourceMappingURL=commonHelpers.js.map
