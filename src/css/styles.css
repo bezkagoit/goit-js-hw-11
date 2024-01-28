@@ -1,10 +1,27 @@
 * {
   box-sizing: border-box;
 }
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #fff;
+
+  color: #434455;
+}
 
 ul {
   list-style-type: none;
+  margin: 0;
   padding: 0;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
 img {
@@ -101,9 +118,32 @@ button {
   object-fit: cover;
 }
 
-.info-list {
-  padding: 10px 10px;
+.stats-block {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  border-top: none;
+}
+
+.stats {
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+}
+
+.amount {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.32px;
+  text-align: center;
 }

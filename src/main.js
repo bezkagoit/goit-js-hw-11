@@ -5,7 +5,7 @@ import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const BASE_URL = 'https://pixabay.com/api';
+const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '41971380-5e7df6cf95dc1cfc66e370c4e';
 
 const refs = {
@@ -88,18 +88,33 @@ function createMarkup(hits) {
       }) => `<li class="gallery-item">
             <a href="${largeImageURL}">
   <img class="gallery-image" src="${webformatURL}" alt="${tags}" width="370" heigth="300"></a>
-  <ul class="info-list">
-    <li class="info-item">Likes: ${likes}</li>
-    <li class="info-item">Views: ${views}</li>
-    <li class="info-item">Comments: ${comments}</li>
-    <li class="info-item">Downloads: ${downloads}</li>
-  </ul>
+  <div class="stats-block">
+         <div class="stats">  
+             <h2 class="title">Likes</h2>
+             <p class="amount">${likes}</p>
+         </div>
+         <div class="stats">  
+             <h2 class="title">Views</h2>
+             <p class="amount">${views}</p>
+         </div>
+          <div class="stats"> 
+              <h2 class="title">Comments</h2>
+             <p class="amount">${comments}</p>
+         </div>
+          <div class="stats">  
+             <h2 class="title">Downloads</h2>
+             <p class="amount">${downloads}</p>
+          </div>
+              
+   </div>
 </li>`
     )
     .join('');
   refs.resultContainer.innerHTML = markUp;
   lightbox.refresh();
+  console.log(markUp);
 }
+
 function showLoader() {
   const loader = document.querySelector('.loader');
   if (loader) {
