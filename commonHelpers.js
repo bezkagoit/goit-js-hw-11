@@ -20,5 +20,5 @@ import{i as c,S as d}from"./assets/vendor-5b791d57.js";(function(){const s=docum
           </div>
               
    </div>
-</li>`).join("");n.resultContainer.innerHTML=s,g.refresh(),console.log(s)}function v(){const t=document.querySelector(".loader");t&&t.classList.add("visible")}function L(){const t=document.querySelector(".loader");t&&t.classList.remove("visible")}
+</li>`).join("");n.resultContainer.innerHTML=s,g.refresh()}function v(){const t=document.querySelector(".loader");t&&t.classList.add("visible")}function L(){const t=document.querySelector(".loader");t&&t.classList.remove("visible")}
 //# sourceMappingURL=commonHelpers.js.map
