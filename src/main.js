@@ -112,7 +112,6 @@ function createMarkup(hits) {
     .join('');
   refs.resultContainer.innerHTML = markUp;
   lightbox.refresh();
-  console.log(markUp);
 }
 
 function showLoader() {
